@@ -1,0 +1,28 @@
+name: Git Hygiene Enforcement
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  gitignore-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check for forbidden tracked files
+        run: |
+          echo "Scanning for forbidden files..."
+          
+          forbidden_files=$(git ls-files | grep -E \
+            '^data/raw/|^data/processed/|\.ipynb_checkpoints|\.env')
+
+          if [ -n "$forbidden_files" ]; then
+            echo "❌ Forbidden files detected:"
+            echo "$forbidden_files"
+            exit 1
+          else
+            echo "✅ Git hygiene check passed"
+          fi
