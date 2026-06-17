@@ -33,8 +33,15 @@ jobs:
       run: |
         echo "Checking Jupyter Notebooks for compilation errors..."
         cd notebooks
+        
+        # 1. Convert the notebook to a pure python script
         jupyter nbconvert --to python churn_and_revenue_retention_analysis.ipynb
+        
+        # 2. Automatically comment out any ipython notebook line magics (fixes NameError)
+        sed -i 's/get_ipython()/# get_ipython()/g' churn_and_revenue_retention_analysis.py
+        
+        # 3. Run the script execution syntax check
         python churn_and_revenue_retention_analysis.py
         
-        # Clean up the generated file so it doesn't leave trailing artifacts
+        # 4. Clean up the generated file so it doesn't trigger git tracking errors
         rm churn_and_revenue_retention_analysis.py
