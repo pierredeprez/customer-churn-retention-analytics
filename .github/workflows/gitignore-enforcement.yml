@@ -4,6 +4,10 @@ on:
   push:
   pull_request:
 
+# Fixes the Node.js deprecation warning for this workflow
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
+
 jobs:
   gitignore-check:
     runs-on: ubuntu-latest
@@ -16,8 +20,9 @@ jobs:
         run: |
           echo "Scanning for forbidden files..."
           
+          # Modified to target data file extensions instead of blocking the entire folder
           forbidden_files=$(git ls-files | grep -E \
-            '^data/raw/|^data/processed/|\.ipynb_checkpoints|\.env')
+            '^data/raw/.*\.(csv|xlsx|parquet|json|tsv|zip|tar\.gz)$|^data/processed/.*\.(csv|xlsx|parquet|json|tsv|zip|tar\.gz)$|\.ipynb_checkpoints|\.env')
 
           if [ -n "$forbidden_files" ]; then
             echo "❌ Forbidden files detected:"

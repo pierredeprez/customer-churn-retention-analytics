@@ -1,8 +1,15 @@
 # ----------------------
 # Data files
 # ----------------------
-data/raw/
-data/processed/
+# Ignore all contents inside these folders
+data/raw/*
+data/processed/*
+
+# Explicitly allow the structural files to be tracked
+!data/raw/.gitkeep
+!data/raw/README.md
+!data/processed/.gitkeep
+!data/processed/README.md
 
 # ----------------------
 # Jupyter Notebook
