@@ -20,8 +20,8 @@ jobs:
         run: |
           echo "Scanning for forbidden files..."
           
-          # Removed pbix from this list so your dashboard passes safely!
-          forbidden_files=$(git ls-files | grep -E '\.(csv|xlsx|parquet|json|tsv|zip|tar\.gz|log)$|\.ipynb_checkpoints/|\.env')
+          # Adding '|| true' prevents grep from crashing the pipeline when your repo is clean!
+          forbidden_files=$(git ls-files | grep -E '\.(csv|xlsx|parquet|json|tsv|zip|tar\.gz|log)$|\.ipynb_checkpoints/|\.env' || true)
 
           if [ -n "$forbidden_files" ]; then
             echo "❌ Forbidden files detected:"
