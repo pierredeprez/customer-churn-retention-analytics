@@ -31,8 +31,12 @@ jobs:
     - name: Validate Jupyter Notebooks (Syntax Check)
       run: |
         echo "Checking Jupyter Notebooks for compilation errors..."
-        # Explicitly output the python script into the notebooks/ directory
-        jupyter nbconvert --to script notebooks/churn_and_revenue_retention_analysis.ipynb --output notebooks/churn_and_revenue_retention_analysis.py
         
-        # Run the freshly generated python file from the correct folder
-        python notebooks/churn_and_revenue_retention_analysis.py
+        # Navigate into the notebooks directory to prevent path duplication bugs
+        cd notebooks
+        
+        # Force conversion specifically to a Python script (.py)
+        jupyter nbconvert --to python churn_and_revenue_retention_analysis.ipynb
+        
+        # Execute the generated Python script directly inside its folder
+        python churn_and_revenue_retention_analysis.py
