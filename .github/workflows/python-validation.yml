@@ -31,6 +31,8 @@ jobs:
     - name: Validate Jupyter Notebooks (Syntax Check)
       run: |
         echo "Checking Jupyter Notebooks for compilation errors..."
-        # This converts the notebook to a script execution framework to verify it runs without crashing
-        jupyter nbconvert --to script notebooks/churn_and_revenue_retention_analysis.ipynb
+        # Explicitly enforce the output filename to be a .py file
+        jupyter nbconvert --to script notebooks/churn_and_revenue_retention_analysis.ipynb --output churn_and_revenue_retention_analysis.py
+        
+        # Run the freshly generated python file
         python notebooks/churn_and_revenue_retention_analysis.py
