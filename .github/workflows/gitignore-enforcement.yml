@@ -20,9 +20,8 @@ jobs:
         run: |
           echo "Scanning for forbidden files..."
           
-          # Modified to target data file extensions instead of blocking the entire folder
-          forbidden_files=$(git ls-files | grep -E \
-            '^data/raw/.*\.(csv|xlsx|parquet|json|tsv|zip|tar\.gz)$|^data/processed/.*\.(csv|xlsx|parquet|json|tsv|zip|tar\.gz)$|\.ipynb_checkpoints|\.env')
+          # Explicitly targets data, log, and dashboard files while letting standard code pass safely
+          forbidden_files=$(git ls-files | grep -E '\.(csv|xlsx|parquet|json|tsv|zip|tar\.gz|log|pbix)$|\.ipynb_checkpoints/|\.env')
 
           if [ -n "$forbidden_files" ]; then
             echo "❌ Forbidden files detected:"
