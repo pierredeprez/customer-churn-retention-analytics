@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [ main, master ]
 
+# Global environment variables applied to all runner actions
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
+
 jobs:
   validate-python:
     runs-on: ubuntu-latest
